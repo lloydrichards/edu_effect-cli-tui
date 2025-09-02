@@ -1,51 +1,127 @@
 import { Command, Prompt } from "@effect/cli";
 import { BunContext, BunRuntime } from "@effect/platform-bun";
 import { Doc } from "@effect/printer";
-import { Ansi } from "@effect/printer-ansi";
-import { Effect, Layer } from "effect";
+import { Console, Effect, Layer, String } from "effect";
 import { OpenTUIService } from "./opentui-service";
 
-const colorPrompt = Prompt.select({
-  message: "Pick your favorite color",
+// Simple
+import { simpleText, multilineText } from "./components/simple-text";
+import { sideBySide } from "./components/simple-layout";
+import { statusBar } from "./components/status-bar";
+import { menu } from "./components/simple-menu";
+import { dialog } from "./components/simple-dialog";
+import { progressBars } from "./components/progress-bar";
+import { systemInfo } from "./components/key-value-display";
+
+// Intermediate
+import { codeEditorExample } from "./components/code-editor";
+import { dashboard } from "./components/dashboard";
+import { logViewer } from "./components/log-viewer";
+import { processTable } from "./components/table";
+
+// Complex
+import { fileManager } from "./components/file-manager";
+import { devDashboard } from "./components/dev-dashboard";
+import { systemMonitor } from "./components/system-monitor";
+
+import { Box, render } from "./Box";
+
+const simpleDemo = [
+  render(simpleText),
+  render(multilineText),
+  render(sideBySide),
+  render(statusBar),
+  render(menu),
+  render(dialog),
+  render(progressBars),
+  render(systemInfo),
+];
+
+const intermediateDemo = [
+  render(codeEditorExample()),
+  render(processTable),
+  render(logViewer),
+  render(dashboard),
+];
+
+const complexDemo = [
+  render(fileManager),
+  render(devDashboard),
+  render(systemMonitor),
+];
+const complexityPrompt = Prompt.select({
+  message: "Pick the complexity level",
   choices: [
     {
-      title: "Red",
-      value: "#ff0000",
-      description: "This option has a description",
+      title: "Simple",
+      value: "simple",
+      description: "Suitable for beginners",
     },
-    { title: "Green", value: "#00ff00", description: "So does this one" },
-    { title: "Blue", value: "#0000ff", disabled: true },
+    {
+      title: "Intermediate",
+      value: "intermediate",
+      description: "A bit more challenging",
+    },
+    {
+      title: "Complex",
+      value: "complex",
+      description: "For advanced users",
+    },
   ],
 });
 
-const prompt = Prompt.all([colorPrompt]);
-
-const doc = Doc.hsep([
-  Doc.text("red"),
-  Doc.align(
-    Doc.vsep([
-      Doc.hsep([
-        Doc.text("blue+u"),
-        Doc.text("bold").pipe(Doc.annotate(Ansi.bold)),
-        Doc.text("blue+u"),
-      ]).pipe(Doc.annotate(Ansi.combine(Ansi.blue, Ansi.underlined))),
-      Doc.text("red"),
-    ])
-  ),
-]).pipe(Doc.annotate(Ansi.red));
+const prompt = Prompt.all([complexityPrompt]);
 
 const FavoritesCommand = Command.prompt(
   "favorites",
   prompt,
   Effect.fn(function* (results) {
-    yield* Effect.log("🎉 Thanks for your input! Here are your results:");
+    // Add a small delay to ensure prompt is finished
+    yield* Effect.sleep("200 millis");
 
-    yield* Effect.log(JSON.stringify(results, null, 2));
+    // Using process.stdout.write to bypass CLI prompt buffering issues
+    yield* Effect.sync(() => {
+      process.stdout.write(
+        "\n🎉 Thanks for your input! Here are your results:\n\n"
+      );
+    });
 
-    yield* Effect.log(Doc.render(doc, { style: "pretty" }));
+    switch (results[0]) {
+      case "simple":
+        for (const output of simpleDemo) {
+          yield* Effect.sync(() => {
+            process.stdout.write(
+              `${output}\n\n${render(Box.text("=".repeat(50)))}\n\n`
+            );
+          });
+        }
+        break;
+      case "intermediate":
+        for (const output of intermediateDemo) {
+          yield* Effect.sync(() => {
+            process.stdout.write(
+              `${output}\n\n${render(Box.text("=".repeat(50)))}\n\n`
+            );
+          });
+        }
+        break;
+      case "complex":
+        for (const output of complexDemo) {
+          yield* Effect.sync(() => {
+            process.stdout.write(
+              `${output}\n\n${render(Box.text("=".repeat(50)))}\n\n`
+            );
+          });
+        }
+        break;
+    }
 
-    yield* Effect.log("✅ Survey results displayed in the terminal box above!");
-    yield* Effect.log("💡 You can press Ctrl+C to exit anytime!");
+    yield* Effect.sync(() => {
+      process.stdout.write(
+        "\n\n✅ Survey results displayed in the terminal box above!\n"
+      );
+      process.stdout.write("💡 You can press Ctrl+C to exit anytime!\n\n");
+    });
 
     // Keep results visible for a moment, but make it interruptible
     yield* Effect.interruptible(Effect.sleep("5 seconds"));
