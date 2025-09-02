@@ -57,7 +57,13 @@ const prompt = Prompt.all([
   togglePrompt,
 ]);
 
-const FavoritesCommand = Command.prompt("favorites", prompt, Effect.log);
+const FavoritesCommand = Command.prompt(
+  "favorites",
+  prompt,
+  Effect.fn(function* (results) {
+    yield* Effect.log("Your favorite color is", results[0]);
+  })
+);
 
 const cli = Command.run(FavoritesCommand, {
   name: "Prompt Examples",
