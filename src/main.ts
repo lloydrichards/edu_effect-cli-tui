@@ -1,5 +1,7 @@
 import { Command, Prompt } from "@effect/cli";
 import { BunContext, BunRuntime } from "@effect/platform-bun";
+import { Doc } from "@effect/printer";
+import { Ansi } from "@effect/printer-ansi";
 import { Effect, Layer } from "effect";
 import { OpenTUIService } from "./opentui-service";
 
@@ -18,16 +20,30 @@ const colorPrompt = Prompt.select({
 
 const prompt = Prompt.all([colorPrompt]);
 
+const doc = Doc.hsep([
+  Doc.text("red"),
+  Doc.align(
+    Doc.vsep([
+      Doc.hsep([
+        Doc.text("blue+u"),
+        Doc.text("bold").pipe(Doc.annotate(Ansi.bold)),
+        Doc.text("blue+u"),
+      ]).pipe(Doc.annotate(Ansi.combine(Ansi.blue, Ansi.underlined))),
+      Doc.text("red"),
+    ])
+  ),
+]).pipe(Doc.annotate(Ansi.red));
+
 const FavoritesCommand = Command.prompt(
   "favorites",
   prompt,
   Effect.fn(function* (results) {
-    const opentuiService = yield* OpenTUIService;
+    yield* Effect.log("🎉 Thanks for your input! Here are your results:");
 
-    // Display results in a beautiful terminal box
-    yield* opentuiService.renderBox(`Survey Results:\n${results[0]}`, {
-      title: "📊 Your Survey Results",
-    });
+    yield* Effect.log(JSON.stringify(results, null, 2));
+
+    yield* Effect.log(Doc.render(doc, { style: "pretty" }));
+
     yield* Effect.log("✅ Survey results displayed in the terminal box above!");
     yield* Effect.log("💡 You can press Ctrl+C to exit anytime!");
 
@@ -43,17 +59,4 @@ const cli = Command.run(FavoritesCommand, {
 
 const MainLayer = Layer.mergeAll(BunContext.layer, OpenTUIService.Default);
 
-// Add global interrupt handler
-process.on("SIGINT", () => {
-  console.log("\n🛑 Received Ctrl+C - exiting cleanly...");
-  process.exit(0);
-});
-
-cli(process.argv).pipe(
-  Effect.provide(MainLayer),
-  Effect.scoped,
-  BunRuntime.runMain({
-    disablePrettyLogger: true,
-    disableErrorReporting: true,
-  })
-);
+cli(process.argv).pipe(Effect.provide(MainLayer), BunRuntime.runMain());

@@ -1,5 +1,5 @@
+import { Box, type CliRenderer, createCliRenderer, Text } from "@opentui/core";
 import { Effect } from "effect";
-import { Box, createCliRenderer, Text, type CliRenderer } from "@opentui/core";
 
 // Define the OpenTUI service using the modern Effect.Service pattern
 export class OpenTUIService extends Effect.Service<OpenTUIService>()(
