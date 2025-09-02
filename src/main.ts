@@ -1,6 +1,7 @@
 import { Command, Prompt } from "@effect/cli";
 import { BunContext, BunRuntime } from "@effect/platform-bun";
 import { Effect, Layer } from "effect";
+import { OpenTUIService } from "./opentui-service";
 
 const colorPrompt = Prompt.select({
   message: "Pick your favorite color",
@@ -15,53 +16,23 @@ const colorPrompt = Prompt.select({
   ],
 });
 
-const confirmPrompt = Prompt.confirm({
-  message: "Can you please confirm?",
-});
-
-const datePrompt = Prompt.date({
-  message: "What's your birth day?",
-  dateMask: '"Year:" YYYY, "Month:" MM, "Day:" DD',
-  validate: (date) =>
-    date.getTime() > Date.now()
-      ? Effect.fail("Your birth day can't be in the future")
-      : Effect.succeed(date),
-});
-
-const numberPrompt = Prompt.float({
-  message: `What is your favorite number?`,
-  validate: (n) =>
-    n > 0 ? Effect.succeed(n) : Effect.fail("must be greater than 0"),
-});
-
-const passwordPrompt = Prompt.password({
-  message: "Enter your password: ",
-  validate: (value) =>
-    value.length === 0
-      ? Effect.fail("Password cannot be empty")
-      : Effect.succeed(value),
-});
-
-const togglePrompt = Prompt.toggle({
-  message: "Yes or no?",
-  active: "yes",
-  inactive: "no",
-});
-
-const prompt = Prompt.all([
-  colorPrompt,
-  confirmPrompt,
-  datePrompt,
-  numberPrompt,
-  passwordPrompt,
-  togglePrompt,
-]);
+const prompt = Prompt.all([colorPrompt]);
 
 const FavoritesCommand = Command.prompt(
   "favorites",
   prompt,
   Effect.fn(function* (results) {
-    yield* Effect.log("Your favorite color is", results[0]);
+    const opentuiService = yield* OpenTUIService;
+
+    // Display results in a beautiful terminal box
+    yield* opentuiService.renderBox(`Survey Results:\n${results[0]}`, {
+      title: "📊 Your Survey Results",
+    });
+    yield* Effect.log("✅ Survey results displayed in the terminal box above!");
+    yield* Effect.log("💡 You can press Ctrl+C to exit anytime!");
+
+    // Keep results visible for a moment, but make it interruptible
+    yield* Effect.interruptible(Effect.sleep("5 seconds"));
   })
 );
 
@@ -70,7 +41,13 @@ const cli = Command.run(FavoritesCommand, {
   version: "0.0.1",
 });
 
-const MainLayer = Layer.mergeAll(BunContext.layer);
+const MainLayer = Layer.mergeAll(BunContext.layer, OpenTUIService.Default);
+
+// Add global interrupt handler
+process.on("SIGINT", () => {
+  console.log("\n🛑 Received Ctrl+C - exiting cleanly...");
+  process.exit(0);
+});
 
 cli(process.argv).pipe(
   Effect.provide(MainLayer),
