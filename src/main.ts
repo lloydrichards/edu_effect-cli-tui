@@ -1,7 +1,6 @@
 import { Command, Prompt } from "@effect/cli";
 import { BunContext, BunRuntime } from "@effect/platform-bun";
-import { Doc } from "@effect/printer";
-import { Console, Effect, Layer, String } from "effect";
+import { Effect, Layer } from "effect";
 import { OpenTUIService } from "./opentui-service";
 
 // Simple
