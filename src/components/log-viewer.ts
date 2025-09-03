@@ -1,4 +1,4 @@
-import { Box, hcat, left, top, vcat } from "../Box";
+import { Box, hcat, left, punctuateH, top, vcat } from "../Box";
 
 // Log Viewer with Timestamps
 const createLogEntry = (timestamp: string, level: string, message: string) => {
@@ -9,12 +9,26 @@ const createLogEntry = (timestamp: string, level: string, message: string) => {
     DEBUG: " DEBUG",
   };
 
-  return hcat(top, [
+  return punctuateH(top, Box.text(" "), [
     Box.text(`[${timestamp}]`),
-    Box.text(" "),
     Box.text(levelColors[level as keyof typeof levelColors] || "  LOG  "),
-    Box.text(" "),
-    Box.text(message),
+    Box.para(left, 50, message),
+  ]);
+};
+
+// Enhanced log entry for longer messages
+const createLongLogEntry = (
+  timestamp: string,
+  level: string,
+  message: string
+) => {
+  const timestampBox = Box.text(`[${timestamp}]`);
+  const levelBox = Box.text(level.padEnd(6));
+
+  return vcat(left, [
+    hcat(top, [timestampBox, Box.text(" "), levelBox]),
+    Box.para(left, 70, message),
+    Box.text(""),
   ]);
 };
 
@@ -34,15 +48,35 @@ export const logViewer = vcat(left, [
   createLogEntry(
     "2024-03-15 14:24:32",
     "WARN",
-    "High memory usage detected (85%)"
+    "High memory usage detected (85%) - consider optimizing memory allocation patterns"
   ),
   createLogEntry(
     "2024-03-15 14:25:01",
     "ERROR",
-    "Failed to connect to external API"
+    "Failed to connect to external API - timeout after 30 seconds"
   ),
   createLogEntry("2024-03-15 14:25:05", "INFO", "Retrying API connection..."),
   createLogEntry("2024-03-15 14:25:08", "INFO", "API connection restored"),
   Box.text("─".repeat(80)),
   Box.text("Press [q] to quit, [↑/↓] to scroll"),
+]);
+
+export const detailedLogViewer = vcat(left, [
+  Box.text("Detailed Application Logs"),
+  Box.text("═".repeat(80)),
+  createLongLogEntry(
+    "2024-03-15 14:23:01",
+    "INFO",
+    "Application initialization completed successfully. All modules loaded, configuration validated, and system checks passed."
+  ),
+  createLongLogEntry(
+    "2024-03-15 14:24:32",
+    "WARN",
+    "Memory usage has exceeded 85% of available system memory. This may impact performance and could lead to system instability if not addressed."
+  ),
+  createLongLogEntry(
+    "2024-03-15 14:25:01",
+    "ERROR",
+    "Critical error occurred while attempting to establish connection to external payment processing API. Connection timeout exceeded after 30 seconds of waiting. This will affect order processing capabilities."
+  ),
 ]);

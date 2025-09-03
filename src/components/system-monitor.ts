@@ -51,6 +51,7 @@ const networkChart = createChart(
   400
 );
 
+// Using Box.para for better text formatting in system information
 const systemProcesses = vcat(left, [
   Box.text("Top Processes"),
   Box.text("─".repeat(30)),
@@ -61,22 +62,47 @@ const systemProcesses = vcat(left, [
   Box.text("3456   vscode       6.4   6.1"),
   Box.text("7890   safari       4.8   5.3"),
   Box.text(""),
-  Box.text("System Load: 1.85"),
-  Box.text("Uptime: 5d 14h 23m"),
-  Box.text("Users: 3 logged in"),
+  Box.para(
+    left,
+    25,
+    "System Load: 1.85 | Uptime: 5d 14h 23m | Users: 3 logged in"
+  ),
 ]);
 
 const systemAlerts = vcat(left, [
   Box.text("System Alerts"),
   Box.text("─".repeat(25)),
-  Box.text("🔴 High CPU usage on core 4"),
-  Box.text("🟡 Disk space low (/var 85%)"),
+  Box.para(
+    left,
+    23,
+    "🔴 High CPU usage detected on core 4 - investigation required"
+  ),
+  Box.para(
+    left,
+    23,
+    "🟡 Disk space critically low on /var partition (85% full)"
+  ),
   Box.text("🟢 All services running"),
   Box.text("🟢 Network connectivity OK"),
-  Box.text("🟡 1 security update available"),
+  Box.para(
+    left,
+    23,
+    "🟡 Security update available - please schedule maintenance"
+  ),
   Box.text(""),
   Box.text("Last Check: 14:32:45"),
   Box.text("Next Check: 14:37:45"),
+]);
+
+// Enhanced system status with better formatting
+const systemStatus = vcat(left, [
+  Box.text("System Status"),
+  Box.text("─".repeat(20)),
+  Box.para(left, 18, "Temperature: CPU 65°C, GPU 52°C"),
+  Box.para(left, 18, "Fan Speed: 2100 RPM (Auto)"),
+  Box.para(left, 18, "Power: AC Connected, Battery 95%"),
+  Box.text(""),
+  Box.para(left, 18, "Boot Time: 23.4s | Sleep Ready: Yes"),
 ]);
 
 export const systemMonitor = vcat(left, [
@@ -93,6 +119,6 @@ export const systemMonitor = vcat(left, [
     Box.text("  "),
     vcat(left, [networkChart, Box.text(""), systemProcesses]),
     Box.text("  "),
-    systemAlerts,
+    vcat(left, [systemAlerts, Box.text(""), systemStatus]),
   ]),
 ]);
