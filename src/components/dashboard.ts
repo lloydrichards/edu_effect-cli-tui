@@ -1,4 +1,4 @@
-import { Box, alignHoriz, center1, align, top, vcat, left, hcat } from "../Box";
+import { align, alignHoriz, Box, center1, hcat, left, top, vcat } from "../Box";
 
 // Dashboard Layout with Multiple Panels
 const createPanel = (

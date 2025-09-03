@@ -4,7 +4,7 @@
  * Demonstrates structured key-value pair display for system information.
  */
 
-import { Box, hcat, vcat, top, left } from "../Box";
+import { Box, hcat, left, top, vcat } from "../Box";
 
 export const createKeyValuePair = (key: string, value: string) => {
   return hcat(top, [Box.text(key.padEnd(15)), Box.text(": "), Box.text(value)]);

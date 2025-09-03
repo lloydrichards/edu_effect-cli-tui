@@ -5,7 +5,7 @@
  * file listings, and status bar.
  */
 
-import { Box, hcat, vcat, top, left, right, alignHoriz } from "../Box";
+import { alignHoriz, Box, hcat, left, right, top, vcat } from "../Box";
 
 const createFileEntry = (
   icon: string,

@@ -4,7 +4,7 @@
  * Demonstrates a basic vertical menu with header and menu items.
  */
 
-import { Box, vcat, left } from "../Box";
+import { Box, left, vcat } from "../Box";
 
 const menuHeader = Box.text("Main Menu");
 const menuItems = [

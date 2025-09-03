@@ -1,4 +1,4 @@
-import { Box, vcat, left, hcat, top } from "../Box";
+import { Box, hcat, left, top, vcat } from "../Box";
 
 export const codeEditorExample = () => {
   // Code Editor with Line Numbers

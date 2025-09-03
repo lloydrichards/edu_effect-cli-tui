@@ -1,4 +1,4 @@
-import { hcat, top, Box, vcat, left } from "../Box";
+import { Box, hcat, left, top, vcat } from "../Box";
 
 // Log Viewer with Timestamps
 const createLogEntry = (timestamp: string, level: string, message: string) => {

@@ -5,7 +5,7 @@
  * terminal, git status, and project statistics.
  */
 
-import { Box, hcat, vcat, top, left } from "../Box";
+import { Box, hcat, left, top, vcat } from "../Box";
 
 const createCodeBlock = (language: string, code: string) => {
   return vcat(left, [

@@ -5,7 +5,7 @@
  * visualization, charts, and system alerts.
  */
 
-import { Box, hcat, vcat, top, left, center1 } from "../Box";
+import { Box, center1, hcat, left, top, vcat } from "../Box";
 
 const createChart = (
   title: string,

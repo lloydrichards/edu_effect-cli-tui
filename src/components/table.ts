@@ -1,4 +1,4 @@
-import { alignHoriz, center1, Box, punctuateH, top, left, vcat } from "../Box";
+import { alignHoriz, Box, center1, left, punctuateH, top, vcat } from "../Box";
 
 // Data Table with Headers and Alignment
 const createTable = (

@@ -4,7 +4,7 @@
  * Demonstrates a centered dialog with title, message, and action buttons.
  */
 
-import { Box, hcat, vcat, center1 } from "../Box";
+import { Box, center1, hcat, vcat } from "../Box";
 
 const dialogTitle = Box.text("Confirmation");
 const dialogMessage = Box.text("Are you sure you want to continue?");

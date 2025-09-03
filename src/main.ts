@@ -1,29 +1,25 @@
 import { Command, Prompt } from "@effect/cli";
 import { BunContext, BunRuntime } from "@effect/platform-bun";
 import { Effect, Layer } from "effect";
-import { OpenTUIService } from "./opentui-service";
-
-// Simple
-import { simpleText, multilineText } from "./components/simple-text";
-import { sideBySide } from "./components/simple-layout";
-import { statusBar } from "./components/status-bar";
-import { menu } from "./components/simple-menu";
-import { dialog } from "./components/simple-dialog";
-import { progressBars } from "./components/progress-bar";
-import { systemInfo } from "./components/key-value-display";
-
+import { Box, render } from "./Box";
 // Intermediate
 import { codeEditorExample } from "./components/code-editor";
 import { dashboard } from "./components/dashboard";
-import { logViewer } from "./components/log-viewer";
-import { processTable } from "./components/table";
-
+import { devDashboard } from "./components/dev-dashboard";
 // Complex
 import { fileManager } from "./components/file-manager";
-import { devDashboard } from "./components/dev-dashboard";
+import { systemInfo } from "./components/key-value-display";
+import { logViewer } from "./components/log-viewer";
+import { progressBars } from "./components/progress-bar";
+import { dialog } from "./components/simple-dialog";
+import { sideBySide } from "./components/simple-layout";
+import { menu } from "./components/simple-menu";
+// Simple
+import { multilineText, simpleText } from "./components/simple-text";
+import { statusBar } from "./components/status-bar";
 import { systemMonitor } from "./components/system-monitor";
-
-import { Box, render } from "./Box";
+import { processTable } from "./components/table";
+import { OpenTUIService } from "./opentui-service";
 
 const simpleDemo = [
   render(simpleText),
