@@ -2,6 +2,13 @@ import { Command, Prompt } from "@effect/cli";
 import { BunContext, BunRuntime } from "@effect/platform-bun";
 import { Effect, Layer } from "effect";
 import { Box, render } from "./Box";
+// Card components
+import {
+  descriptionCard,
+  fixedWidthExample,
+  servicesCard,
+  simpleCard,
+} from "./components/card-examples";
 // Intermediate
 import { codeEditorExample } from "./components/code-editor";
 import { dashboard } from "./components/dashboard";
@@ -48,6 +55,11 @@ const simpleDemo = [
   render(confirmationDialog),
   render(progressBars),
   render(systemInfo),
+  // Card examples
+  render(simpleCard),
+  render(descriptionCard),
+  render(servicesCard),
+  render(fixedWidthExample),
 ];
 
 const intermediateDemo = [

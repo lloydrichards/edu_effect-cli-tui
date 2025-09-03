@@ -1,7 +1,7 @@
 import { alignHoriz, Box, center1, left, punctuateH, top, vcat } from "../Box";
 
 // Data Table with Headers and Alignment
-const createTable = (
+export const createTable = (
   headers: string[],
   rows: string[][],
   colWidths: number[]
@@ -10,17 +10,31 @@ const createTable = (
   const headerBoxes = headers.map((header, i) =>
     alignHoriz(center1, colWidths[i] || 15, Box.text(header))
   );
-  const headerRow = punctuateH(top, Box.text(" | "), headerBoxes);
+  const headerRow = punctuateH(top, Box.text(" │ "), headerBoxes);
 
-  // Create separator
-  const separator = Box.text("-".repeat(headerRow.cols));
+  // Create separator with crosses at column intersections
+  const createSeparator = (colWidths: number[]): Box => {
+    let separatorText = "";
+    for (let i = 0; i < colWidths.length; i++) {
+      const width = colWidths[i] || 15;
+      // Add dashes for the column width
+      separatorText += "─".repeat(width);
+      // Add cross character at intersections (except after the last column)
+      if (i < colWidths.length - 1) {
+        separatorText += "─┼─"; // matches the " | " pattern with cross
+      }
+    }
+    return Box.text(separatorText);
+  };
+
+  const separator = createSeparator(colWidths);
 
   // Create data rows
   const dataRows = rows.map((row) => {
     const cellBoxes = row.map((cell, i) =>
       alignHoriz(left, colWidths[i] || 15, Box.text(cell))
     );
-    return punctuateH(top, Box.text(" | "), cellBoxes);
+    return punctuateH(top, Box.text(" │ "), cellBoxes);
   });
 
   return vcat(left, [headerRow, separator, ...dataRows]);
