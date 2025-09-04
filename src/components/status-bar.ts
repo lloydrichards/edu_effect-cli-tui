@@ -11,15 +11,11 @@ export const createStatusBar = (
   progress: string,
   time: string
 ) => {
-  return Box.hcat(
-    [
-      Box.text(`Status: ${status}`),
-      Box.text("  |  "),
-      Box.text(`Progress: ${progress}`),
-      Box.text("  |  "),
-      Box.text(`Time: ${time}`),
-    ],
-    Box.top
+  return Box.text(`Status: ${status}`).pipe(
+    Box.hAppend(Box.text("  |  ")),
+    Box.hAppend(Box.text(`Progress: ${progress}`)),
+    Box.hAppend(Box.text("  |  ")),
+    Box.hAppend(Box.text(`Time: ${time}`))
   );
 };
 
@@ -32,23 +28,24 @@ export const createEnhancedStatusBar = (
   time: string,
   width = 80
 ) => {
-  const leftSection = Box.alignHoriz(
-    Box.para(`Status: ${status}`, Box.left, width / 3),
-    Box.left,
-    width / 3
-  );
-  const centerSection = Box.alignHoriz(
-    Box.para(`Progress: ${progress}`, Box.center1, width / 3),
-    Box.center1,
-    width / 3
-  );
-  const rightSection = Box.alignHoriz(
-    Box.para(`Time: ${time}`, Box.right, width / 3),
-    Box.right,
-    width / 3
+  const leftSection = Box.para(`Status: ${status}`, Box.left, width / 3).pipe(
+    Box.alignHoriz(Box.left, width / 3)
   );
 
-  return Box.hcat([leftSection, centerSection, rightSection], Box.top);
+  const centerSection = Box.para(
+    `Progress: ${progress}`,
+    Box.center1,
+    width / 3
+  ).pipe(Box.alignHoriz(Box.center1, width / 3));
+
+  const rightSection = Box.para(`Time: ${time}`, Box.right, width / 3).pipe(
+    Box.alignHoriz(Box.right, width / 3)
+  );
+
+  return leftSection.pipe(
+    Box.hAppend(centerSection),
+    Box.hAppend(rightSection)
+  );
 };
 
 export const enhancedStatusBar = createEnhancedStatusBar(
@@ -71,7 +68,7 @@ export const createDetailedStatusBar = (
   );
   const separator = Box.text("─".repeat(width));
 
-  return Box.vcat([statusLine, separator], Box.left);
+  return statusLine.pipe(Box.vAppend(separator));
 };
 
 export const detailedStatusBar = createDetailedStatusBar(

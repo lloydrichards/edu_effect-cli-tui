@@ -27,18 +27,16 @@ export const createCard = (
   const contentHeight = Math.max(cardHeight - 2, 1);
   const contentWidth = Math.max(cardWidth - 4, 1);
 
-  return Box.vcat(
-    [
-      createTopBorderWithTitle(title, cardWidth),
-      createBorderedContent(Box.text(" "), cardWidth),
+  return createTopBorderWithTitle(title, cardWidth).pipe(
+    Box.vAppend(createBorderedContent(Box.text(" "), cardWidth)),
+    Box.vAppend(
       createBorderedContent(
-        Box.align(content, Box.left, Box.top, contentHeight, contentWidth),
+        content.pipe(Box.align(Box.left, Box.top, contentHeight, contentWidth)),
         cardWidth
-      ),
-      createBorderedContent(Box.text(" "), cardWidth),
-      Box.text(`┗${"━".repeat(cardWidth - 2)}┛`),
-    ],
-    Box.left
+      )
+    ),
+    Box.vAppend(createBorderedContent(Box.text(" "), cardWidth)),
+    Box.vAppend(Box.text(`┗${"━".repeat(cardWidth - 2)}┛`))
   );
 };
 
@@ -71,12 +69,8 @@ const createBorderedContent = (
   const innerWidth = totalWidth - 4; // Account for borders and padding (┃ + space + content + space + ┃)
 
   // First, fit the content within the available space
-  const fittedContent = Box.align(
-    content,
-    Box.left,
-    Box.top,
-    content.rows,
-    innerWidth
+  const fittedContent = content.pipe(
+    Box.align(Box.left, Box.top, content.rows, innerWidth)
   );
 
   // Create vertical border columns that span the full height
@@ -98,7 +92,7 @@ const createBorderedContent = (
   );
 
   // Combine horizontally: border + padding + content + padding + border
-  return {
+  return Box.make({
     rows: content.rows,
     cols: totalWidth,
     content: {
@@ -111,7 +105,7 @@ const createBorderedContent = (
         rightBorderCol,
       ],
     },
-  };
+  });
 };
 
 /**

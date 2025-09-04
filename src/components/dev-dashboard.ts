@@ -8,21 +8,16 @@
 import * as Box from "../Box";
 
 const createCodeBlock = (language: string, code: string) => {
-  return Box.vcat(
-    [
-      Box.text(`// ${language}`),
-      Box.text("─".repeat(30)),
-      Box.text(code),
-      Box.text(""),
-    ],
-    Box.left
+  return Box.text(`// ${language}`).pipe(
+    Box.vAppend(Box.text("─".repeat(30))),
+    Box.vAppend(Box.text(code)),
+    Box.vAppend(Box.text(""))
   );
 };
 
-const codeEditor = Box.vcat(
-  [
-    Box.text("src/main.ts"),
-    Box.text("─".repeat(40)),
+const codeEditor = Box.text("src/main.ts").pipe(
+  Box.vAppend(Box.text("─".repeat(40))),
+  Box.vAppend(
     createCodeBlock(
       "TypeScript",
       `import { Effect } from 'effect';
@@ -34,9 +29,8 @@ const app = Effect.sync(() => {
 });
 
 Effect.runSync(app);`
-    ),
-  ],
-  Box.left
+    )
+  )
 );
 
 const terminal = Box.vcat(

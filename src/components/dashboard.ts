@@ -7,17 +7,15 @@ const createPanel = (
   width: number,
   height: number
 ) => {
-  const titleBox = Box.alignHoriz(Box.text(`[ ${title} ]`), Box.center1, width);
+  const titleBox = Box.text(`[ ${title} ]`).pipe(
+    Box.alignHoriz(Box.center1, width)
+  );
   const border = Box.text("─".repeat(width));
-  const paddedContent = Box.align(
-    content,
-    Box.center1,
-    Box.top,
-    height - 3,
-    width
+  const paddedContent = content.pipe(
+    Box.align(Box.center1, Box.top, height - 3, width)
   );
 
-  return Box.vcat([titleBox, border, paddedContent], Box.center1);
+  return titleBox.pipe(Box.vAppend(border), Box.vAppend(paddedContent));
 };
 
 // Using Box.para for cleaner multi-line content
@@ -45,25 +43,17 @@ const diskStats = Box.para(
   23
 );
 
-const leftDashboard = Box.vcat(
-  [
-    createPanel("System", cpuUsage, 25, 8),
-    Box.text(""),
-    createPanel("Memory", memoryUsage, 25, 8),
-  ],
-  Box.left
+const leftDashboard = createPanel("System", cpuUsage, 25, 8).pipe(
+  Box.vAppend(Box.text("")),
+  Box.vAppend(createPanel("Memory", memoryUsage, 25, 8))
 );
 
-const rightDashboard = Box.vcat(
-  [
-    createPanel("Network", networkStats, 25, 8),
-    Box.text(""),
-    createPanel("Disk", diskStats, 25, 8),
-  ],
-  Box.left
+const rightDashboard = createPanel("Network", networkStats, 25, 8).pipe(
+  Box.vAppend(Box.text("")),
+  Box.vAppend(createPanel("Disk", diskStats, 25, 8))
 );
 
-export const dashboard = Box.hcat(
-  [leftDashboard, Box.text("  "), rightDashboard],
-  Box.top
+export const dashboard = leftDashboard.pipe(
+  Box.hAppend(Box.text("  ")),
+  Box.hAppend(rightDashboard)
 );

@@ -16,9 +16,8 @@ export const createProgressBar = (
   const progressBar = "█".repeat(filledChars) + "░".repeat(emptyChars);
   const percentage = Math.round((completed / total) * 100);
 
-  return Box.hcat(
-    [Box.text(`[${progressBar}]`), Box.text(` ${percentage}%`)],
-    Box.top
+  return Box.text(`[${progressBar}]`).pipe(
+    Box.hAppend(Box.text(` ${percentage}%`))
   );
 };
 

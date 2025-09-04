@@ -6,16 +6,12 @@
 
 import * as Box from "../Box";
 
-export const menu = Box.vcat(
-  [
-    Box.text("Main Menu"),
-    Box.text("-".repeat(20)),
-    Box.text("1. Start Application"),
-    Box.text("2. View Settings"),
-    Box.text("3. Check Status"),
-    Box.text("4. Exit"),
-  ],
-  Box.left
+export const menu = Box.text("Main Menu").pipe(
+  Box.vAppend(Box.text("-".repeat(20))),
+  Box.vAppend(Box.text("1. Start Application")),
+  Box.vAppend(Box.text("2. View Settings")),
+  Box.vAppend(Box.text("3. Check Status")),
+  Box.vAppend(Box.text("4. Exit"))
 );
 
 // Enhanced menu with descriptions using Box.para
@@ -24,13 +20,10 @@ const createMenuItemWithDescription = (
   title: string,
   description: string
 ) => {
-  return Box.vcat(
-    [
-      Box.hcat([Box.text(`${number}. `), Box.text(title)], Box.top),
-      Box.para(`   ${description}`, Box.left, 35),
-      Box.text(""),
-    ],
-    Box.left
+  return Box.text(`${number}. `).pipe(
+    Box.hAppend(Box.text(title)),
+    Box.vAppend(Box.para(`   ${description}`, Box.left, 35)),
+    Box.vAppend(Box.text(""))
   );
 };
 

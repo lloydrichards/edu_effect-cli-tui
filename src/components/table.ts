@@ -8,7 +8,7 @@ export const createTable = (
 ) => {
   // Create header row
   const headerBoxes = headers.map((header, i) =>
-    Box.alignHoriz(Box.text(header), Box.center1, colWidths[i] || 15)
+    Box.text(header).pipe(Box.alignHoriz(Box.center1, colWidths[i] || 15))
   );
   const headerRow = Box.punctuateH(headerBoxes, Box.top, Box.text(" │ "));
 
@@ -32,12 +32,18 @@ export const createTable = (
   // Create data rows
   const dataRows = rows.map((row) => {
     const cellBoxes = row.map((cell, i) =>
-      Box.alignHoriz(Box.text(cell), Box.left, colWidths[i] || 15)
+      Box.text(cell).pipe(Box.alignHoriz(Box.left, colWidths[i] || 15))
     );
     return Box.punctuateH(cellBoxes, Box.top, Box.text(" │ "));
   });
 
-  return Box.vcat([headerRow, separator, ...dataRows], Box.left);
+  // Build the table by chaining row appends
+  let table = headerRow.pipe(Box.vAppend(separator));
+  for (const row of dataRows) {
+    table = table.pipe(Box.vAppend(row));
+  }
+
+  return table;
 };
 
 export const processTable = createTable(

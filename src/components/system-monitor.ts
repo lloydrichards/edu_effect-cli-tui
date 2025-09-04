@@ -26,14 +26,14 @@ const createChart = (
 
   const bottom = `└${"─".repeat(values.length)}┘`;
 
-  return Box.vcat(
-    [
-      Box.text(title),
-      ...chartLines.map((line) => Box.text(line)),
-      Box.text(bottom),
-    ],
-    Box.left
-  );
+  // Build the chart by chaining line appends
+  let chart = Box.text(title);
+  for (const line of chartLines) {
+    chart = chart.pipe(Box.vAppend(Box.text(line)));
+  }
+  chart = chart.pipe(Box.vAppend(Box.text(bottom)));
+
+  return chart;
 };
 
 const cpuChart = createChart(
