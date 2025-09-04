@@ -4,14 +4,14 @@
  * Demonstrates a simple status bar with multiple information sections.
  */
 
-import { alignHoriz, Box, center1, hcat, left, right, top, vcat } from "../Box";
+import * as Box from "../Box";
 
 export const createStatusBar = (
   status: string,
   progress: string,
   time: string
 ) => {
-  return hcat(top, [
+  return Box.hcat(Box.top, [
     Box.text(`Status: ${status}`),
     Box.text("  |  "),
     Box.text(`Progress: ${progress}`),
@@ -29,23 +29,23 @@ export const createEnhancedStatusBar = (
   time: string,
   width = 80
 ) => {
-  const leftSection = alignHoriz(
-    left,
+  const leftSection = Box.alignHoriz(
+    Box.left,
     width / 3,
-    Box.para(left, width / 3, `Status: ${status}`)
+    Box.para(Box.left, width / 3, `Status: ${status}`)
   );
-  const centerSection = alignHoriz(
-    center1,
+  const centerSection = Box.alignHoriz(
+    Box.center1,
     width / 3,
-    Box.para(center1, width / 3, `Progress: ${progress}`)
+    Box.para(Box.center1, width / 3, `Progress: ${progress}`)
   );
-  const rightSection = alignHoriz(
-    right,
+  const rightSection = Box.alignHoriz(
+    Box.right,
     width / 3,
-    Box.para(right, width / 3, `Time: ${time}`)
+    Box.para(Box.right, width / 3, `Time: ${time}`)
   );
 
-  return hcat(top, [leftSection, centerSection, rightSection]);
+  return Box.hcat(Box.top, [leftSection, centerSection, rightSection]);
 };
 
 export const enhancedStatusBar = createEnhancedStatusBar(
@@ -62,13 +62,13 @@ export const createDetailedStatusBar = (
   width = 80
 ) => {
   const statusLine = Box.para(
-    left,
+    Box.left,
     width,
     `System: ${systemStatus} | Network: ${networkStatus} | User: ${userInfo}`
   );
   const separator = Box.text("─".repeat(width));
 
-  return vcat(left, [statusLine, separator]);
+  return Box.vcat(Box.left, [statusLine, separator]);
 };
 
 export const detailedStatusBar = createDetailedStatusBar(

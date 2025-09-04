@@ -5,7 +5,7 @@
  * visualization, charts, and system alerts.
  */
 
-import { Box, center1, hcat, left, top, vcat } from "../Box";
+import * as Box from "../Box";
 
 const createChart = (
   title: string,
@@ -26,7 +26,7 @@ const createChart = (
 
   const bottom = `└${"─".repeat(values.length)}┘`;
 
-  return vcat(left, [
+  return Box.vcat(Box.left, [
     Box.text(title),
     ...chartLines.map((line) => Box.text(line)),
     Box.text(bottom),
@@ -52,7 +52,7 @@ const networkChart = createChart(
 );
 
 // Using Box.para for better text formatting in system information
-const systemProcesses = vcat(left, [
+const systemProcesses = Box.vcat(Box.left, [
   Box.text("Top Processes"),
   Box.text("─".repeat(30)),
   Box.text("PID    Name         CPU%  MEM%"),
@@ -63,29 +63,29 @@ const systemProcesses = vcat(left, [
   Box.text("7890   safari       4.8   5.3"),
   Box.text(""),
   Box.para(
-    left,
+    Box.left,
     25,
     "System Load: 1.85 | Uptime: 5d 14h 23m | Users: 3 logged in"
   ),
 ]);
 
-const systemAlerts = vcat(left, [
+const systemAlerts = Box.vcat(Box.left, [
   Box.text("System Alerts"),
   Box.text("─".repeat(25)),
   Box.para(
-    left,
+    Box.left,
     23,
     "🔴 High CPU usage detected on core 4 - investigation required"
   ),
   Box.para(
-    left,
+    Box.left,
     23,
     "🟡 Disk space critically low on /var partition (85% full)"
   ),
   Box.text("🟢 All services running"),
   Box.text("🟢 Network connectivity OK"),
   Box.para(
-    left,
+    Box.left,
     23,
     "🟡 Security update available - please schedule maintenance"
   ),
@@ -95,18 +95,18 @@ const systemAlerts = vcat(left, [
 ]);
 
 // Enhanced system status with better formatting
-const systemStatus = vcat(left, [
+const systemStatus = Box.vcat(Box.left, [
   Box.text("System Status"),
   Box.text("─".repeat(20)),
-  Box.para(left, 18, "Temperature: CPU 65°C, GPU 52°C"),
-  Box.para(left, 18, "Fan Speed: 2100 RPM (Auto)"),
-  Box.para(left, 18, "Power: AC Connected, Battery 95%"),
+  Box.para(Box.left, 18, "Temperature: CPU 65°C, GPU 52°C"),
+  Box.para(Box.left, 18, "Fan Speed: 2100 RPM (Auto)"),
+  Box.para(Box.left, 18, "Power: AC Connected, Battery 95%"),
   Box.text(""),
-  Box.para(left, 18, "Boot Time: 23.4s | Sleep Ready: Yes"),
+  Box.para(Box.left, 18, "Boot Time: 23.4s | Sleep Ready: Yes"),
 ]);
 
-export const systemMonitor = vcat(left, [
-  hcat(center1, [
+export const systemMonitor = Box.vcat(Box.left, [
+  Box.hcat(Box.center1, [
     Box.text("System Monitor Dashboard"),
     Box.text(" - "),
     Box.text("macOS 14.0"),
@@ -114,11 +114,11 @@ export const systemMonitor = vcat(left, [
     Box.text("14:35:22"),
   ]),
   Box.text("═".repeat(120)),
-  hcat(top, [
-    vcat(left, [cpuChart, Box.text(""), memoryChart]),
+  Box.hcat(Box.top, [
+    Box.vcat(Box.left, [cpuChart, Box.text(""), memoryChart]),
     Box.text("  "),
-    vcat(left, [networkChart, Box.text(""), systemProcesses]),
+    Box.vcat(Box.left, [networkChart, Box.text(""), systemProcesses]),
     Box.text("  "),
-    vcat(left, [systemAlerts, Box.text(""), systemStatus]),
+    Box.vcat(Box.left, [systemAlerts, Box.text(""), systemStatus]),
   ]),
 ]);

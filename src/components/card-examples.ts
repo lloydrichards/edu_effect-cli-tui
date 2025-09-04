@@ -4,7 +4,7 @@
  * This file demonstrates various ways to use the card component.
  */
 
-import { Box, left, punctuateV } from "../Box";
+import * as Box from "../Box";
 import { createAutoSizedCard, createCard, createFixedWidthCard } from "./card";
 import { createTable } from "./table";
 
@@ -20,7 +20,7 @@ export const simpleCard = createCard(
 export const descriptionCard = createAutoSizedCard(
   "Description",
   Box.para(
-    left,
+    Box.left,
     25,
     "This card demonstrates how to display longer text content with automatic wrapping within the card boundaries."
   )
@@ -42,13 +42,13 @@ export const servicesCard = createAutoSizedCard(
 );
 
 // Example 6: Fixed width cards with different content lengths
-export const fixedWidthExample = punctuateV(left, Box.text(" "), [
+export const fixedWidthExample = Box.punctuateV(Box.left, Box.text(" "), [
   createFixedWidthCard("Short", Box.text("Brief content"), 30),
   Box.text(""),
   createFixedWidthCard(
     "Long",
     Box.para(
-      left,
+      Box.left,
       25,
       "This is much longer content that will be wrapped to fit within the fixed width boundaries of the card."
     ),

@@ -4,7 +4,7 @@
  * Demonstrates progress indicators with visual bars and percentage display.
  */
 
-import { Box, hcat, top, vcat } from "../Box";
+import * as Box from "../Box";
 
 export const createProgressBar = (
   completed: number,
@@ -16,11 +16,14 @@ export const createProgressBar = (
   const progressBar = "█".repeat(filledChars) + "░".repeat(emptyChars);
   const percentage = Math.round((completed / total) * 100);
 
-  return hcat(top, [Box.text(`[${progressBar}]`), Box.text(` ${percentage}%`)]);
+  return Box.hcat(Box.top, [
+    Box.text(`[${progressBar}]`),
+    Box.text(` ${percentage}%`),
+  ]);
 };
 
 // Example progress bars
-export const progressBars = vcat(top, [
+export const progressBars = Box.vcat(Box.top, [
   createProgressBar(7, 10),
   createProgressBar(3, 10),
   createProgressBar(10, 10),

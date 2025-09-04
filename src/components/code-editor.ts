@@ -1,16 +1,16 @@
-import { Box, hcat, left, top, vcat } from "../Box";
+import * as Box from "../Box";
 
 export const codeEditorExample = () => {
   // Code Editor with Line Numbers
   const createLineNumbers = (start: number, count: number) => {
-    const lines: Box[] = [];
+    const lines: Box.Box[] = [];
     for (let i = 0; i < count; i++) {
       lines.push(Box.text(`${(start + i).toString().padStart(3)} │`));
     }
-    return vcat(left, lines);
+    return Box.vcat(Box.left, lines);
   };
 
-  const codeContent = vcat(left, [
+  const codeContent = Box.vcat(Box.left, [
     Box.text("export class User {"),
     Box.text("  constructor("),
     Box.text("    public name: string,"),
@@ -23,13 +23,13 @@ export const codeEditorExample = () => {
     Box.text("}"),
   ]);
 
-  const editor = hcat(top, [
+  const editor = Box.hcat(Box.top, [
     createLineNumbers(1, 10),
     Box.text(" "),
     codeContent,
   ]);
 
-  return vcat(left, [
+  return Box.vcat(Box.left, [
     Box.text("src/User.ts"),
     Box.text("─".repeat(40)),
     editor,

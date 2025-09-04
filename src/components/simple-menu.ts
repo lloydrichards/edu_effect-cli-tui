@@ -4,9 +4,9 @@
  * Demonstrates a basic vertical menu with header and menu items.
  */
 
-import { Box, hcat, left, top, vcat } from "../Box";
+import * as Box from "../Box";
 
-export const menu = vcat(left, [
+export const menu = Box.vcat(Box.left, [
   Box.text("Main Menu"),
   Box.text("-".repeat(20)),
   Box.text("1. Start Application"),
@@ -21,14 +21,14 @@ const createMenuItemWithDescription = (
   title: string,
   description: string
 ) => {
-  return vcat(left, [
-    hcat(top, [Box.text(`${number}. `), Box.text(title)]),
-    Box.para(left, 35, `   ${description}`),
+  return Box.vcat(Box.left, [
+    Box.hcat(Box.top, [Box.text(`${number}. `), Box.text(title)]),
+    Box.para(Box.left, 35, `   ${description}`),
     Box.text(""),
   ]);
 };
 
-export const detailedMenu = vcat(left, [
+export const detailedMenu = Box.vcat(Box.left, [
   Box.text("Application Menu"),
   Box.text("═".repeat(40)),
   Box.text(""),

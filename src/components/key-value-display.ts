@@ -4,10 +4,14 @@
  * Demonstrates structured key-value pair display for system information.
  */
 
-import { alignHoriz, Box, hcat, left, top, vcat } from "../Box";
+import * as Box from "../Box";
 
 export const createKeyValuePair = (key: string, value: string) => {
-  return hcat(top, [Box.text(key.padEnd(15)), Box.text(": "), Box.text(value)]);
+  return Box.hcat(Box.top, [
+    Box.text(key.padEnd(15)),
+    Box.text(": "),
+    Box.text(value),
+  ]);
 };
 
 // Enhanced version using Box.para for better value formatting
@@ -16,14 +20,14 @@ export const createKeyValuePairPara = (
   value: string,
   valueWidth = 30
 ) => {
-  const keyBox = alignHoriz(left, 15, Box.text(key));
+  const keyBox = Box.alignHoriz(Box.left, 15, Box.text(key));
   const separator = Box.text(": ");
-  const valueBox = Box.para(left, valueWidth, value);
+  const valueBox = Box.para(Box.left, valueWidth, value);
 
-  return hcat(top, [keyBox, separator, valueBox]);
+  return Box.hcat(Box.top, [keyBox, separator, valueBox]);
 };
 
-export const systemInfo = vcat(left, [
+export const systemInfo = Box.vcat(Box.left, [
   Box.text("System Information"),
   Box.text("=".repeat(30)),
   createKeyValuePair("OS", "macOS 14.0"),
@@ -33,7 +37,7 @@ export const systemInfo = vcat(left, [
 ]);
 
 // Enhanced system info with longer descriptions using Box.para
-export const detailedSystemInfo = vcat(left, [
+export const detailedSystemInfo = Box.vcat(Box.left, [
   Box.text("Detailed System Information"),
   Box.text("=".repeat(40)),
   createKeyValuePairPara(

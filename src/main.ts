@@ -1,7 +1,7 @@
 import { Command, Prompt } from "@effect/cli";
 import { BunContext, BunRuntime } from "@effect/platform-bun";
 import { Effect, Layer } from "effect";
-import { Box, render } from "./Box";
+import * as Box from "./Box";
 // Card components
 import {
   descriptionCard,
@@ -43,44 +43,44 @@ import {
 import { OpenTUIService } from "./opentui-service";
 
 const simpleDemo = [
-  render(simpleText),
-  render(multilineText),
-  render(centeredPara),
-  render(sideBySide),
-  render(enhancedLayout),
-  render(statusBar),
-  render(enhancedStatusBar),
-  render(menu),
-  render(dialog),
-  render(confirmationDialog),
-  render(progressBars),
-  render(systemInfo),
+  simpleText,
+  multilineText,
+  centeredPara,
+  sideBySide,
+  enhancedLayout,
+  statusBar,
+  enhancedStatusBar,
+  menu,
+  dialog,
+  confirmationDialog,
+  progressBars,
+  systemInfo,
   // Card examples
-  render(simpleCard),
-  render(descriptionCard),
-  render(servicesCard),
-  render(fixedWidthExample),
+  simpleCard,
+  descriptionCard,
+  servicesCard,
+  fixedWidthExample,
 ];
 
 const intermediateDemo = [
-  render(codeEditorExample()),
-  render(processTable),
-  render(logViewer),
-  render(detailedLogViewer),
-  render(dashboard),
-  render(detailedSystemInfo),
-  render(detailedStatusBar),
-  render(detailedMenu),
+  codeEditorExample(),
+  processTable,
+  logViewer,
+  detailedLogViewer,
+  dashboard,
+  detailedSystemInfo,
+  detailedStatusBar,
+  detailedMenu,
 ];
 
 const complexDemo = [
-  render(fileManager),
-  render(devDashboard),
-  render(systemMonitor),
-  render(twoColumns),
-  render(threeColumns),
-  render(newspaperLayout),
-  render(documentationLayout),
+  fileManager,
+  devDashboard,
+  systemMonitor,
+  twoColumns,
+  threeColumns,
+  newspaperLayout,
+  documentationLayout,
 ];
 
 const complexityPrompt = Prompt.select({
@@ -118,7 +118,13 @@ const FavoritesCommand = Command.prompt(
         for (const output of simpleDemo) {
           yield* Effect.sync(() => {
             process.stdout.write(
-              `${output}\n\n${render(Box.text("=".repeat(50)))}\n\n`
+              Box.render(
+                Box.punctuateV(Box.top, Box.text("  "), [
+                  Box.emptyBox(1, 1),
+                  output,
+                  Box.text("=".repeat(50)),
+                ])
+              )
             );
           });
         }
@@ -127,7 +133,13 @@ const FavoritesCommand = Command.prompt(
         for (const output of intermediateDemo) {
           yield* Effect.sync(() => {
             process.stdout.write(
-              `${output}\n\n${render(Box.text("=".repeat(50)))}\n\n`
+              Box.render(
+                Box.punctuateV(Box.top, Box.text("  "), [
+                  Box.emptyBox(1, 1),
+                  output,
+                  Box.text("=".repeat(50)),
+                ])
+              )
             );
           });
         }
@@ -136,7 +148,13 @@ const FavoritesCommand = Command.prompt(
         for (const output of complexDemo) {
           yield* Effect.sync(() => {
             process.stdout.write(
-              `${output}\n\n${render(Box.text("=".repeat(50)))}\n\n`
+              Box.render(
+                Box.punctuateV(Box.top, Box.text("  "), [
+                  Box.emptyBox(1, 1),
+                  output,
+                  Box.text("=".repeat(50)),
+                ])
+              )
             );
           });
         }

@@ -5,7 +5,7 @@
  * The content can be any Box type, making it flexible for various use cases.
  */
 
-import { align, Box, left, top, vcat } from "../Box";
+import * as Box from "../Box";
 
 /**
  * Creates a card component with a border and title
@@ -17,21 +17,21 @@ import { align, Box, left, top, vcat } from "../Box";
  */
 export const createCard = (
   title: string,
-  content: Box,
+  content: Box.Box,
   width: number,
   height: number
-): Box => {
+): Box.Box => {
   const cardWidth = Math.max(width, title.length + 6);
   const cardHeight = Math.max(height, 3);
 
   const contentHeight = Math.max(cardHeight - 2, 1);
   const contentWidth = Math.max(cardWidth - 4, 1);
 
-  return vcat(left, [
+  return Box.vcat(Box.left, [
     createTopBorderWithTitle(title, cardWidth),
     createBorderedContent(Box.text(" "), cardWidth),
     createBorderedContent(
-      align(left, top, contentHeight, contentWidth, content),
+      Box.align(Box.left, Box.top, contentHeight, contentWidth, content),
       cardWidth
     ),
     createBorderedContent(Box.text(" "), cardWidth),
@@ -42,7 +42,10 @@ export const createCard = (
 /**
  * Helper function to create a top border with integrated title
  */
-const createTopBorderWithTitle = (title: string, totalWidth: number): Box => {
+const createTopBorderWithTitle = (
+  title: string,
+  totalWidth: number
+): Box.Box => {
   const titleWithBrackets = ` ${title} `;
 
   const leftBorderLength = 2;
@@ -58,27 +61,36 @@ const createTopBorderWithTitle = (title: string, totalWidth: number): Box => {
 /**
  * Helper function to create content with side borders for each row
  */
-const createBorderedContent = (content: Box, totalWidth: number): Box => {
+const createBorderedContent = (
+  content: Box.Box,
+  totalWidth: number
+): Box.Box => {
   const innerWidth = totalWidth - 4; // Account for borders and padding (┃ + space + content + space + ┃)
 
   // First, fit the content within the available space
-  const fittedContent = align(left, top, content.rows, innerWidth, content);
+  const fittedContent = Box.align(
+    Box.left,
+    Box.top,
+    content.rows,
+    innerWidth,
+    content
+  );
 
   // Create vertical border columns that span the full height
-  const leftBorderCol = vcat(
-    left,
+  const leftBorderCol = Box.vcat(
+    Box.left,
     Array.from({ length: content.rows }, () => Box.text("┃"))
   );
-  const rightBorderCol = vcat(
-    left,
+  const rightBorderCol = Box.vcat(
+    Box.left,
     Array.from({ length: content.rows }, () => Box.text("┃"))
   );
-  const leftPaddingCol = vcat(
-    left,
+  const leftPaddingCol = Box.vcat(
+    Box.left,
     Array.from({ length: content.rows }, () => Box.text(" "))
   );
-  const rightPaddingCol = vcat(
-    left,
+  const rightPaddingCol = Box.vcat(
+    Box.left,
     Array.from({ length: content.rows }, () => Box.text(" "))
   );
 
@@ -108,9 +120,9 @@ const createBorderedContent = (content: Box, totalWidth: number): Box => {
  */
 export const createAutoSizedCard = (
   title: string,
-  content: Box,
+  content: Box.Box,
   padding = 2
-): Box => {
+): Box.Box => {
   // Calculate dimensions based on content and title
   const minWidth = Math.max(content.cols + padding * 2 + 2, title.length + 4); // +2 for side borders, +4 for title brackets
   const height = content.rows + 2; // +2 for top border (with title) and bottom border
@@ -127,9 +139,9 @@ export const createAutoSizedCard = (
  */
 export const createFixedWidthCard = (
   title: string,
-  content: Box,
+  content: Box.Box,
   width: number
-): Box => {
+): Box.Box => {
   const height = content.rows + 2; // Auto-calculate height based on content (top border with title + bottom border)
   return createCard(title, content, width, height);
 };

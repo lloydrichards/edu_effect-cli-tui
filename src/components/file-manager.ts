@@ -5,7 +5,7 @@
  * file listings, and status bar.
  */
 
-import { alignHoriz, Box, hcat, left, right, top, vcat } from "../Box";
+import * as Box from "../Box";
 
 const createFileEntry = (
   icon: string,
@@ -15,20 +15,24 @@ const createFileEntry = (
   isSelected = false
 ) => {
   const prefix = isSelected ? "► " : "  ";
-  const nameBox = alignHoriz(left, 25, Box.text(`${prefix}${icon} ${name}`));
-  const sizeBox = alignHoriz(right, 10, Box.text(size));
-  const dateBox = alignHoriz(left, 15, Box.text(date));
+  const nameBox = Box.alignHoriz(
+    Box.left,
+    25,
+    Box.text(`${prefix}${icon} ${name}`)
+  );
+  const sizeBox = Box.alignHoriz(Box.right, 10, Box.text(size));
+  const dateBox = Box.alignHoriz(Box.left, 15, Box.text(date));
 
-  return hcat(top, [nameBox, sizeBox, dateBox]);
+  return Box.hcat(Box.top, [nameBox, sizeBox, dateBox]);
 };
 
-const fileManagerHeader = hcat(top, [
-  alignHoriz(left, 25, Box.text("Name")),
-  alignHoriz(right, 10, Box.text("Size")),
-  alignHoriz(left, 15, Box.text("Modified")),
+const fileManagerHeader = Box.hcat(Box.top, [
+  Box.alignHoriz(Box.left, 25, Box.text("Name")),
+  Box.alignHoriz(Box.right, 10, Box.text("Size")),
+  Box.alignHoriz(Box.left, 15, Box.text("Modified")),
 ]);
 
-const fileList = vcat(left, [
+const fileList = Box.vcat(Box.left, [
   fileManagerHeader,
   Box.text("─".repeat(50)),
   createFileEntry("📁", "..", "", "", false),
@@ -41,7 +45,7 @@ const fileList = vcat(left, [
   createFileEntry("📹", "video.mp4", "125MB", "2024-03-10", false),
 ]);
 
-const fileManagerSidebar = vcat(left, [
+const fileManagerSidebar = Box.vcat(Box.left, [
   Box.text("Quick Access"),
   Box.text("─".repeat(15)),
   Box.text("🏠 Home"),
@@ -60,7 +64,7 @@ const fileManagerSidebar = vcat(left, [
   Box.text("📁 Folders: 1,867"),
 ]);
 
-const fileManagerStatus = hcat(top, [
+const fileManagerStatus = Box.hcat(Box.top, [
   Box.text("F1 Help"),
   Box.text(" | "),
   Box.text("F2 Rename"),
@@ -74,10 +78,10 @@ const fileManagerStatus = hcat(top, [
   Box.text("Del Delete"),
 ]);
 
-export const fileManager = vcat(left, [
+export const fileManager = Box.vcat(Box.left, [
   Box.text("/Users/john/Documents"),
   Box.text("═".repeat(80)),
-  hcat(top, [fileManagerSidebar, Box.text("  │  "), fileList]),
+  Box.hcat(Box.top, [fileManagerSidebar, Box.text("  │  "), fileList]),
   Box.text("─".repeat(80)),
   fileManagerStatus,
 ]);

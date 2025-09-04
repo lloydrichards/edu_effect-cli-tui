@@ -4,16 +4,7 @@
  * Demonstrates the Box.columns functionality for flowing text into multiple columns.
  */
 
-import {
-  Box,
-  center1,
-  columns,
-  hcat,
-  left,
-  top,
-  vcat,
-  punctuateH,
-} from "../Box";
+import * as Box from "../Box";
 
 // Example of flowing text into columns
 const longText = `
@@ -25,16 +16,16 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 `;
 
 // Create columns with different widths and heights
-export const twoColumns = punctuateH(
-  top,
+export const twoColumns = Box.punctuateH(
+  Box.top,
   Box.text("   "),
-  columns(left, 35, 15, longText)
+  Box.columns(Box.left, 35, 15, longText)
 );
 
-export const threeColumns = punctuateH(
-  top,
+export const threeColumns = Box.punctuateH(
+  Box.top,
   Box.text("  "),
-  columns(center1, 25, 12, longText)
+  Box.columns(Box.center1, 25, 12, longText)
 );
 
 // Newspaper-style layout with multiple articles
@@ -47,25 +38,25 @@ const article2 =
 const article3 =
   "Development Tips: When working with text columns, consider the reading flow and ensure adequate spacing between columns for optimal readability.";
 
-export const newspaperLayout = vcat(left, [
+export const newspaperLayout = Box.vcat(Box.left, [
   Box.text("Terminal UI News"),
   Box.text("═".repeat(80)),
   Box.text(""),
-  punctuateH(top, Box.text("  "), [
-    vcat(left, [
+  Box.punctuateH(Box.top, Box.text("  "), [
+    Box.vcat(Box.left, [
       Box.text("HEADLINE STORY"),
       Box.text("─".repeat(25)),
-      Box.para(left, 25, article1),
+      Box.para(Box.left, 25, article1),
     ]),
-    vcat(left, [
+    Box.vcat(Box.left, [
       Box.text("TECH UPDATE"),
       Box.text("─".repeat(25)),
-      Box.para(left, 25, article2),
+      Box.para(Box.left, 25, article2),
     ]),
-    vcat(left, [
+    Box.vcat(Box.left, [
       Box.text("DEV TIPS"),
       Box.text("─".repeat(25)),
-      Box.para(left, 25, article3),
+      Box.para(Box.left, 25, article3),
     ]),
   ]),
 ]);
@@ -81,9 +72,13 @@ You can specify different alignments for each column, controlling how text is po
 The implementation handles edge cases such as very long words, empty lines, and maintains proper text formatting throughout the flowing process.
 `;
 
-export const documentationLayout = vcat(left, [
+export const documentationLayout = Box.vcat(Box.left, [
   Box.text("Documentation Layout Example"),
   Box.text("━".repeat(60)),
   Box.text(""),
-  punctuateH(top, Box.text("    "), columns(left, 28, 20, documentationText)),
+  Box.punctuateH(
+    Box.top,
+    Box.text("    "),
+    Box.columns(Box.left, 28, 20, documentationText)
+  ),
 ]);

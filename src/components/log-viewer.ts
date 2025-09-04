@@ -1,4 +1,4 @@
-import { Box, hcat, left, punctuateH, top, vcat } from "../Box";
+import * as Box from "../Box";
 
 // Log Viewer with Timestamps
 const createLogEntry = (timestamp: string, level: string, message: string) => {
@@ -9,10 +9,10 @@ const createLogEntry = (timestamp: string, level: string, message: string) => {
     DEBUG: " DEBUG",
   };
 
-  return punctuateH(top, Box.text(" "), [
+  return Box.punctuateH(Box.top, Box.text(" "), [
     Box.text(`[${timestamp}]`),
     Box.text(levelColors[level as keyof typeof levelColors] || "  LOG  "),
-    Box.para(left, 50, message),
+    Box.para(Box.left, 50, message),
   ]);
 };
 
@@ -25,14 +25,14 @@ const createLongLogEntry = (
   const timestampBox = Box.text(`[${timestamp}]`);
   const levelBox = Box.text(level.padEnd(6));
 
-  return vcat(left, [
-    hcat(top, [timestampBox, Box.text(" "), levelBox]),
-    Box.para(left, 70, message),
+  return Box.vcat(Box.left, [
+    Box.hcat(Box.top, [timestampBox, Box.text(" "), levelBox]),
+    Box.para(Box.left, 70, message),
     Box.text(""),
   ]);
 };
 
-export const logViewer = vcat(left, [
+export const logViewer = Box.vcat(Box.left, [
   Box.text("Application Logs"),
   Box.text("─".repeat(80)),
   createLogEntry(
@@ -61,7 +61,7 @@ export const logViewer = vcat(left, [
   Box.text("Press [q] to quit, [↑/↓] to scroll"),
 ]);
 
-export const detailedLogViewer = vcat(left, [
+export const detailedLogViewer = Box.vcat(Box.left, [
   Box.text("Detailed Application Logs"),
   Box.text("═".repeat(80)),
   createLongLogEntry(

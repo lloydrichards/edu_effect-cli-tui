@@ -1,4 +1,4 @@
-import { alignHoriz, Box, center1, left, punctuateH, top, vcat } from "../Box";
+import * as Box from "../Box";
 
 // Data Table with Headers and Alignment
 export const createTable = (
@@ -8,12 +8,12 @@ export const createTable = (
 ) => {
   // Create header row
   const headerBoxes = headers.map((header, i) =>
-    alignHoriz(center1, colWidths[i] || 15, Box.text(header))
+    Box.alignHoriz(Box.center1, colWidths[i] || 15, Box.text(header))
   );
-  const headerRow = punctuateH(top, Box.text(" │ "), headerBoxes);
+  const headerRow = Box.punctuateH(Box.top, Box.text(" │ "), headerBoxes);
 
   // Create separator with crosses at column intersections
-  const createSeparator = (colWidths: number[]): Box => {
+  const createSeparator = (colWidths: number[]): Box.Box => {
     let separatorText = "";
     for (let i = 0; i < colWidths.length; i++) {
       const width = colWidths[i] || 15;
@@ -32,12 +32,12 @@ export const createTable = (
   // Create data rows
   const dataRows = rows.map((row) => {
     const cellBoxes = row.map((cell, i) =>
-      alignHoriz(left, colWidths[i] || 15, Box.text(cell))
+      Box.alignHoriz(Box.left, colWidths[i] || 15, Box.text(cell))
     );
-    return punctuateH(top, Box.text(" │ "), cellBoxes);
+    return Box.punctuateH(Box.top, Box.text(" │ "), cellBoxes);
   });
 
-  return vcat(left, [headerRow, separator, ...dataRows]);
+  return Box.vcat(Box.left, [headerRow, separator, ...dataRows]);
 };
 
 export const processTable = createTable(

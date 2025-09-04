@@ -5,10 +5,10 @@
  * terminal, git status, and project statistics.
  */
 
-import { Box, hcat, left, top, vcat } from "../Box";
+import * as Box from "../Box";
 
 const createCodeBlock = (language: string, code: string) => {
-  return vcat(left, [
+  return Box.vcat(Box.left, [
     Box.text(`// ${language}`),
     Box.text("─".repeat(30)),
     Box.text(code),
@@ -16,7 +16,7 @@ const createCodeBlock = (language: string, code: string) => {
   ]);
 };
 
-const codeEditor = vcat(left, [
+const codeEditor = Box.vcat(Box.left, [
   Box.text("src/main.ts"),
   Box.text("─".repeat(40)),
   createCodeBlock(
@@ -33,7 +33,7 @@ Effect.runSync(app);`
   ),
 ]);
 
-const terminal = vcat(left, [
+const terminal = Box.vcat(Box.left, [
   Box.text("Terminal"),
   Box.text("─".repeat(40)),
   Box.text("$ bun run build"),
@@ -44,7 +44,7 @@ const terminal = vcat(left, [
   Box.text("$ _"),
 ]);
 
-const gitStatus = vcat(left, [
+const gitStatus = Box.vcat(Box.left, [
   Box.text("Git Status"),
   Box.text("─".repeat(20)),
   Box.text("Branch: main"),
@@ -58,7 +58,7 @@ const gitStatus = vcat(left, [
   Box.text("↑2 ↓0 ahead/behind"),
 ]);
 
-const projectStats = vcat(left, [
+const projectStats = Box.vcat(Box.left, [
   Box.text("Project Stats"),
   Box.text("─".repeat(20)),
   Box.text("Files: 42"),
@@ -73,12 +73,12 @@ const projectStats = vcat(left, [
   Box.text("• typescript: ^5.9.2"),
 ]);
 
-export const devDashboard = vcat(left, [
+export const devDashboard = Box.vcat(Box.left, [
   Box.text("Development Dashboard - MyProject"),
   Box.text("═".repeat(100)),
-  hcat(top, [
-    vcat(left, [codeEditor, Box.text(""), terminal]),
+  Box.hcat(Box.top, [
+    Box.vcat(Box.left, [codeEditor, Box.text(""), terminal]),
     Box.text("  │  "),
-    vcat(left, [gitStatus, Box.text(""), projectStats]),
+    Box.vcat(Box.left, [gitStatus, Box.text(""), projectStats]),
   ]),
 ]);
