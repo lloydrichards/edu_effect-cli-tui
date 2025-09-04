@@ -119,11 +119,11 @@ const FavoritesCommand = Command.prompt(
           yield* Effect.sync(() => {
             process.stdout.write(
               Box.render(
-                Box.punctuateV(Box.top, Box.text("  "), [
-                  Box.emptyBox(1, 1),
-                  output,
-                  Box.text("=".repeat(50)),
-                ])
+                Box.punctuateV(
+                  [Box.emptyBox(1, 1), output, Box.text("=".repeat(50))],
+                  Box.top,
+                  Box.text("  ")
+                )
               )
             );
           });
@@ -134,11 +134,11 @@ const FavoritesCommand = Command.prompt(
           yield* Effect.sync(() => {
             process.stdout.write(
               Box.render(
-                Box.punctuateV(Box.top, Box.text("  "), [
-                  Box.emptyBox(1, 1),
-                  output,
-                  Box.text("=".repeat(50)),
-                ])
+                Box.punctuateV(
+                  [Box.emptyBox(1, 1), output, Box.text("=".repeat(50))],
+                  Box.top,
+                  Box.text("  ")
+                )
               )
             );
           });
@@ -149,11 +149,11 @@ const FavoritesCommand = Command.prompt(
           yield* Effect.sync(() => {
             process.stdout.write(
               Box.render(
-                Box.punctuateV(Box.top, Box.text("  "), [
-                  Box.emptyBox(1, 1),
-                  output,
-                  Box.text("=".repeat(50)),
-                ])
+                Box.punctuateV(
+                  [Box.emptyBox(1, 1), output, Box.text("=".repeat(50))],
+                  Box.top,
+                  Box.text("  ")
+                )
               )
             );
           });

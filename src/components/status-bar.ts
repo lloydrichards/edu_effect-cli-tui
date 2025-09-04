@@ -11,13 +11,16 @@ export const createStatusBar = (
   progress: string,
   time: string
 ) => {
-  return Box.hcat(Box.top, [
-    Box.text(`Status: ${status}`),
-    Box.text("  |  "),
-    Box.text(`Progress: ${progress}`),
-    Box.text("  |  "),
-    Box.text(`Time: ${time}`),
-  ]);
+  return Box.hcat(
+    [
+      Box.text(`Status: ${status}`),
+      Box.text("  |  "),
+      Box.text(`Progress: ${progress}`),
+      Box.text("  |  "),
+      Box.text(`Time: ${time}`),
+    ],
+    Box.top
+  );
 };
 
 export const statusBar = createStatusBar("Running", "45%", "12:34");
@@ -30,22 +33,22 @@ export const createEnhancedStatusBar = (
   width = 80
 ) => {
   const leftSection = Box.alignHoriz(
+    Box.para(`Status: ${status}`, Box.left, width / 3),
     Box.left,
-    width / 3,
-    Box.para(Box.left, width / 3, `Status: ${status}`)
+    width / 3
   );
   const centerSection = Box.alignHoriz(
+    Box.para(`Progress: ${progress}`, Box.center1, width / 3),
     Box.center1,
-    width / 3,
-    Box.para(Box.center1, width / 3, `Progress: ${progress}`)
+    width / 3
   );
   const rightSection = Box.alignHoriz(
+    Box.para(`Time: ${time}`, Box.right, width / 3),
     Box.right,
-    width / 3,
-    Box.para(Box.right, width / 3, `Time: ${time}`)
+    width / 3
   );
 
-  return Box.hcat(Box.top, [leftSection, centerSection, rightSection]);
+  return Box.hcat([leftSection, centerSection, rightSection], Box.top);
 };
 
 export const enhancedStatusBar = createEnhancedStatusBar(
@@ -62,13 +65,13 @@ export const createDetailedStatusBar = (
   width = 80
 ) => {
   const statusLine = Box.para(
+    `System: ${systemStatus} | Network: ${networkStatus} | User: ${userInfo}`,
     Box.left,
-    width,
-    `System: ${systemStatus} | Network: ${networkStatus} | User: ${userInfo}`
+    width
   );
   const separator = Box.text("─".repeat(width));
 
-  return Box.vcat(Box.left, [statusLine, separator]);
+  return Box.vcat([statusLine, separator], Box.left);
 };
 
 export const detailedStatusBar = createDetailedStatusBar(

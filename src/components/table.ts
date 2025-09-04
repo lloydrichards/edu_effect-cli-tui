@@ -8,9 +8,9 @@ export const createTable = (
 ) => {
   // Create header row
   const headerBoxes = headers.map((header, i) =>
-    Box.alignHoriz(Box.center1, colWidths[i] || 15, Box.text(header))
+    Box.alignHoriz(Box.text(header), Box.center1, colWidths[i] || 15)
   );
-  const headerRow = Box.punctuateH(Box.top, Box.text(" │ "), headerBoxes);
+  const headerRow = Box.punctuateH(headerBoxes, Box.top, Box.text(" │ "));
 
   // Create separator with crosses at column intersections
   const createSeparator = (colWidths: number[]): Box.Box => {
@@ -32,12 +32,12 @@ export const createTable = (
   // Create data rows
   const dataRows = rows.map((row) => {
     const cellBoxes = row.map((cell, i) =>
-      Box.alignHoriz(Box.left, colWidths[i] || 15, Box.text(cell))
+      Box.alignHoriz(Box.text(cell), Box.left, colWidths[i] || 15)
     );
-    return Box.punctuateH(Box.top, Box.text(" │ "), cellBoxes);
+    return Box.punctuateH(cellBoxes, Box.top, Box.text(" │ "));
   });
 
-  return Box.vcat(Box.left, [headerRow, separator, ...dataRows]);
+  return Box.vcat([headerRow, separator, ...dataRows], Box.left);
 };
 
 export const processTable = createTable(

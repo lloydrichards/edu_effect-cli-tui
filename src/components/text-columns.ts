@@ -17,15 +17,15 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 
 // Create columns with different widths and heights
 export const twoColumns = Box.punctuateH(
+  Box.columns(longText, Box.left, 35, 15),
   Box.top,
-  Box.text("   "),
-  Box.columns(Box.left, 35, 15, longText)
+  Box.text("   ")
 );
 
 export const threeColumns = Box.punctuateH(
+  Box.columns(longText, Box.center1, 25, 12),
   Box.top,
-  Box.text("  "),
-  Box.columns(Box.center1, 25, 12, longText)
+  Box.text("  ")
 );
 
 // Newspaper-style layout with multiple articles
@@ -38,28 +38,44 @@ const article2 =
 const article3 =
   "Development Tips: When working with text columns, consider the reading flow and ensure adequate spacing between columns for optimal readability.";
 
-export const newspaperLayout = Box.vcat(Box.left, [
-  Box.text("Terminal UI News"),
-  Box.text("═".repeat(80)),
-  Box.text(""),
-  Box.punctuateH(Box.top, Box.text("  "), [
-    Box.vcat(Box.left, [
-      Box.text("HEADLINE STORY"),
-      Box.text("─".repeat(25)),
-      Box.para(Box.left, 25, article1),
-    ]),
-    Box.vcat(Box.left, [
-      Box.text("TECH UPDATE"),
-      Box.text("─".repeat(25)),
-      Box.para(Box.left, 25, article2),
-    ]),
-    Box.vcat(Box.left, [
-      Box.text("DEV TIPS"),
-      Box.text("─".repeat(25)),
-      Box.para(Box.left, 25, article3),
-    ]),
-  ]),
-]);
+export const newspaperLayout = Box.vcat(
+  [
+    Box.text("Terminal UI News"),
+    Box.text("═".repeat(80)),
+    Box.text(""),
+    Box.punctuateH(
+      [
+        Box.vcat(
+          [
+            Box.text("HEADLINE STORY"),
+            Box.text("─".repeat(25)),
+            Box.para(article1, Box.left, 25),
+          ],
+          Box.left
+        ),
+        Box.vcat(
+          [
+            Box.text("TECH UPDATE"),
+            Box.text("─".repeat(25)),
+            Box.para(article2, Box.left, 25),
+          ],
+          Box.left
+        ),
+        Box.vcat(
+          [
+            Box.text("DEV TIPS"),
+            Box.text("─".repeat(25)),
+            Box.para(article3, Box.left, 25),
+          ],
+          Box.left
+        ),
+      ],
+      Box.top,
+      Box.text("  ")
+    ),
+  ],
+  Box.left
+);
 
 // Documentation layout example
 const documentationText = `
@@ -72,13 +88,16 @@ You can specify different alignments for each column, controlling how text is po
 The implementation handles edge cases such as very long words, empty lines, and maintains proper text formatting throughout the flowing process.
 `;
 
-export const documentationLayout = Box.vcat(Box.left, [
-  Box.text("Documentation Layout Example"),
-  Box.text("━".repeat(60)),
-  Box.text(""),
-  Box.punctuateH(
-    Box.top,
-    Box.text("    "),
-    Box.columns(Box.left, 28, 20, documentationText)
-  ),
-]);
+export const documentationLayout = Box.vcat(
+  [
+    Box.text("Documentation Layout Example"),
+    Box.text("━".repeat(60)),
+    Box.text(""),
+    Box.punctuateH(
+      Box.columns(documentationText, Box.left, 28, 20),
+      Box.top,
+      Box.text("    ")
+    ),
+  ],
+  Box.left
+);

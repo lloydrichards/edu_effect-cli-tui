@@ -27,16 +27,19 @@ export const createCard = (
   const contentHeight = Math.max(cardHeight - 2, 1);
   const contentWidth = Math.max(cardWidth - 4, 1);
 
-  return Box.vcat(Box.left, [
-    createTopBorderWithTitle(title, cardWidth),
-    createBorderedContent(Box.text(" "), cardWidth),
-    createBorderedContent(
-      Box.align(Box.left, Box.top, contentHeight, contentWidth, content),
-      cardWidth
-    ),
-    createBorderedContent(Box.text(" "), cardWidth),
-    Box.text(`┗${"━".repeat(cardWidth - 2)}┛`),
-  ]);
+  return Box.vcat(
+    [
+      createTopBorderWithTitle(title, cardWidth),
+      createBorderedContent(Box.text(" "), cardWidth),
+      createBorderedContent(
+        Box.align(content, Box.left, Box.top, contentHeight, contentWidth),
+        cardWidth
+      ),
+      createBorderedContent(Box.text(" "), cardWidth),
+      Box.text(`┗${"━".repeat(cardWidth - 2)}┛`),
+    ],
+    Box.left
+  );
 };
 
 /**
@@ -69,29 +72,29 @@ const createBorderedContent = (
 
   // First, fit the content within the available space
   const fittedContent = Box.align(
+    content,
     Box.left,
     Box.top,
     content.rows,
-    innerWidth,
-    content
+    innerWidth
   );
 
   // Create vertical border columns that span the full height
   const leftBorderCol = Box.vcat(
-    Box.left,
-    Array.from({ length: content.rows }, () => Box.text("┃"))
+    Array.from({ length: content.rows }, () => Box.text("┃")),
+    Box.left
   );
   const rightBorderCol = Box.vcat(
-    Box.left,
-    Array.from({ length: content.rows }, () => Box.text("┃"))
+    Array.from({ length: content.rows }, () => Box.text("┃")),
+    Box.left
   );
   const leftPaddingCol = Box.vcat(
-    Box.left,
-    Array.from({ length: content.rows }, () => Box.text(" "))
+    Array.from({ length: content.rows }, () => Box.text(" ")),
+    Box.left
   );
   const rightPaddingCol = Box.vcat(
-    Box.left,
-    Array.from({ length: content.rows }, () => Box.text(" "))
+    Array.from({ length: content.rows }, () => Box.text(" ")),
+    Box.left
   );
 
   // Combine horizontally: border + padding + content + padding + border
