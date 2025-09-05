@@ -33,7 +33,12 @@ import {
   statusBar,
 } from "./components/status-bar";
 import { systemMonitor } from "./components/system-monitor";
-import { processTable } from "./components/table";
+import {
+  processFullBorderedTable as processSimpleTable,
+  processTable,
+  processOrnateTable,
+  processShadowTable,
+} from "./components/table";
 import {
   documentationLayout,
   newspaperLayout,
@@ -64,7 +69,6 @@ const simpleDemo = [
 
 const intermediateDemo = [
   codeEditorExample(),
-  processTable,
   logViewer,
   detailedLogViewer,
   dashboard,
@@ -81,6 +85,13 @@ const complexDemo = [
   threeColumns,
   newspaperLayout,
   documentationLayout,
+];
+
+const effectDemo = [
+  processTable,
+  processSimpleTable,
+  processOrnateTable,
+  processShadowTable,
 ];
 
 const complexityPrompt = Prompt.select({
@@ -100,6 +111,11 @@ const complexityPrompt = Prompt.select({
       title: "Complex",
       value: "complex",
       description: "Advanced multi-column layouts and text flowing",
+    },
+    {
+      title: "Effect",
+      value: "effect",
+      description: "Explore the Effect framework capabilities",
     },
   ],
 });
@@ -146,6 +162,22 @@ const FavoritesCommand = Command.prompt(
         break;
       case "complex":
         for (const output of complexDemo) {
+          yield* Effect.sync(() => {
+            process.stdout.write(
+              Box.render(
+                Box.punctuateV(
+                  [Box.emptyBox(1, 1), output, Box.text("=".repeat(50))],
+                  Box.top,
+                  Box.text("  ")
+                )
+              )
+            );
+          });
+        }
+        break;
+      case "effect":
+        for (const outputEffect of effectDemo) {
+          const output = yield* outputEffect;
           yield* Effect.sync(() => {
             process.stdout.write(
               Box.render(

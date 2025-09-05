@@ -6,7 +6,8 @@
 
 import * as Box from "../Box";
 import { createAutoSizedCard, createCard, createFixedWidthCard } from "./card";
-import { createTable } from "./table";
+import { createSimpleTable, TableServiceLayer } from "./table";
+import { Effect } from "effect";
 
 // Example 1: Simple text card
 export const simpleCard = createCard(
@@ -29,15 +30,17 @@ export const descriptionCard = createAutoSizedCard(
 // Example 4: Table-like content in a card
 export const servicesCard = createAutoSizedCard(
   "Running Services",
-  createTable(
-    ["PID", "Name", "CPU%", "Memory", "Status"],
-    [
-      ["1234", "node", "12.5", "245MB", "Running"],
-      ["5678", "postgres", "5.2", "512MB", "Running"],
-      ["9012", "redis", "0.8", "64MB", "Running"],
-      ["3456", "nginx", "2.1", "32MB", "Running"],
-    ],
-    [6, 12, 6, 8, 8]
+  Effect.runSync(
+    createSimpleTable(
+      ["PID", "Name", "CPU%", "Memory", "Status"],
+      [
+        ["1234", "node", "12.5", "245MB", "Running"],
+        ["5678", "postgres", "5.2", "512MB", "Running"],
+        ["9012", "redis", "0.8", "64MB", "Running"],
+        ["3456", "nginx", "2.1", "32MB", "Running"],
+      ],
+      [6, 12, 6, 8, 8]
+    ).pipe(Effect.provide(TableServiceLayer))
   )
 );
 
