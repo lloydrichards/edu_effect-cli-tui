@@ -4,10 +4,10 @@
  * This file demonstrates various ways to use the card component.
  */
 
+import { Effect } from "effect";
 import * as Box from "../Box";
 import { createAutoSizedCard, createCard, createFixedWidthCard } from "./card";
 import { createSimpleTable, TableServiceLayer } from "./table";
-import { Effect } from "effect";
 
 // Example 1: Simple text card
 export const simpleCard = createCard(

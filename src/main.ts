@@ -34,10 +34,10 @@ import {
 } from "./components/status-bar";
 import { systemMonitor } from "./components/system-monitor";
 import {
-  processFullBorderedTable as processSimpleTable,
-  processTable,
   processOrnateTable,
   processShadowTable,
+  processFullBorderedTable as processSimpleTable,
+  processTable,
 } from "./components/table";
 import {
   documentationLayout,
