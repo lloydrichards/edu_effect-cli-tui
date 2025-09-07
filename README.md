@@ -1,5 +1,13 @@
 # Effect CLI TUI
 
+> [!IMPORTANT]
+>
+> Have moved the development of `Box` to its own repository:
+> [proj_effect-boxes](https://github.com/lloydrichards/proj_effect-boxes)
+>
+> This repository will be kept for reference, but all new development will be
+> done in the new repo.
+
 An experiment in creating flexible Terminal User Interfaces (TUIs) using a
 ported Haskell Box layout system, built with Effect-TS.
 
